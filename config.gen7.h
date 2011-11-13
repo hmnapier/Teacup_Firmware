@@ -58,12 +58,12 @@
 /// for belts, this is (steps per motor turn) / (number of gear teeth) / (belt module)
 /// half-stepping doubles the number, quarter stepping requires * 4, etc.
 /// valid range = 0.020 to 4194.303
-#define	STEPS_PER_MM_X				40.000
-#define	STEPS_PER_MM_Y				40.000
-#define	STEPS_PER_MM_Z				320.000
+#define	STEPS_PER_MM_X				80.000
+#define	STEPS_PER_MM_Y				80.000
+#define	STEPS_PER_MM_Z				1280.000
 
 /// http://blog.arcol.hu/?p=157 may help with this one
-#define	STEPS_PER_MM_E				96.271
+#define	STEPS_PER_MM_E				539.010
 
 
 /*
@@ -74,8 +74,8 @@
 */
 
 /// used for G0 rapid moves and as a cap for all other feedrates
-#define	MAXIMUM_FEEDRATE_X			2000
-#define	MAXIMUM_FEEDRATE_Y			2000
+#define	MAXIMUM_FEEDRATE_X			6000
+#define	MAXIMUM_FEEDRATE_Y			6000
 #define	MAXIMUM_FEEDRATE_Z			200
 #define	MAXIMUM_FEEDRATE_E			2000
 
@@ -86,13 +86,13 @@
 // no SEARCH_FEEDRATE_E, as E can't be searched
 
 /** \def SLOW_HOMING
-	wether to search the home point slowly
+	whether to search the home point slowly
 		With some endstop configurations, like when probing for the surface of a PCB, you can't deal with overrunning the endstop. In such a case, uncomment this definition.
 */
 // #define	SLOW_HOMING
 
 /// this is how many steps to suck back the filament by when we stop. set to zero to disable
-#define	E_STARTSTOP_STEPS			289
+#define	E_STARTSTOP_STEPS			0
 
 /**
 	Soft axis limits, in mm.
@@ -111,7 +111,7 @@
 /**	\def E_ABSOLUTE
 	Some G-Code creators produce relative length commands for the extruder, others absolute ones. G-Code using absolute lengths can be recognized when there are G92 E0 commands from time to time. If you have G92 E0 in your G-Code, define this flag.
 */
-// #define E_ABSOLUTE
+#define E_ABSOLUTE
 
 
 
@@ -141,7 +141,7 @@
 	how fast to accelerate when using ACCELERATION_RAMPING.
 		given in mm/s^2, decimal allowed, useful range 1. to 10'000. Start with 10. for milling (high precision) or 1000. for printing
 */
-#define ACCELERATION 1000.
+#define ACCELERATION 5000.
 
 /** \def ACCELERATION_TEMPORAL
 	temporal step algorithm
@@ -188,7 +188,7 @@
 #define	X_STEP_PIN						DIO19
 #define	X_DIR_PIN							DIO18
 #define	X_MIN_PIN							DIO7
-//#define	X_MAX_PIN							xxxx
+//#define	X_MAX_PIN					        DIO6
 //#define	X_ENABLE_PIN					xxxx
 //#define	X_INVERT_DIR
 //#define	X_INVERT_MIN
@@ -198,7 +198,7 @@
 #define	Y_STEP_PIN						DIO23
 #define	Y_DIR_PIN							DIO22
 #define	Y_MIN_PIN							DIO5
-//#define	Y_MAX_PIN							xxxx
+//#define	Y_MAX_PIN							DIO4
 //#define	Y_ENABLE_PIN					xxxx
 //#define	Y_INVERT_DIR
 //#define	Y_INVERT_MIN
@@ -208,7 +208,7 @@
 #define	Z_STEP_PIN						DIO26
 #define	Z_DIR_PIN							DIO25
 #define	Z_MIN_PIN							DIO1
-//#define	Z_MAX_PIN							xxxx
+//#define	Z_MAX_PIN							DIO2
 //#define	Z_ENABLE_PIN					xxxx
 //#define	Z_INVERT_DIR
 //#define	Z_INVERT_MIN
@@ -237,7 +237,7 @@
 	TEMP_HYSTERESIS: actual temperature must be target +/- hysteresis before target temperature can be achieved.
 	Unit is degree Celsius.
 */
-#define	TEMP_HYSTERESIS			20
+#define	TEMP_HYSTERESIS			10
 /**
 	TEMP_RESIDENCY_TIME: actual temperature must be close to target for this long before target is achieved
 
@@ -278,7 +278,7 @@
 // to get both thermistors working make sure to use an appropriate 'ThermistorTable.h' file! 
 // See 'ThermistorTable.gen7.h' for an example
 DEFINE_TEMP_SENSOR(extruder, TT_THERMISTOR, PINA1, THERMISTOR_EXTRUDER)
-DEFINE_TEMP_SENSOR(bed, TT_THERMISTOR, PINA2, THERMISTOR_BED)
+//DEFINE_TEMP_SENSOR(bed, TT_THERMISTOR, PINA2, THERMISTOR_BED)
 
 
 
@@ -324,6 +324,7 @@ DEFINE_TEMP_SENSOR(bed, TT_THERMISTOR, PINA2, THERMISTOR_BED)
 //               name      port   pin    pwm
 DEFINE_HEATER(extruder,	PB4)
 DEFINE_HEATER(bed, PB3)
+DEFINE_HEATER(fan,	PA0)
 
 /// and now because the c preprocessor isn't as smart as it could be,
 /// uncomment the ones you've listed above and comment the rest.
@@ -333,6 +334,7 @@ DEFINE_HEATER(bed, PB3)
 
 #define	HEATER_EXTRUDER HEATER_extruder
 #define HEATER_BED HEATER_bed
+#define HEATER_FAN HEATER_fan
 
 
 
