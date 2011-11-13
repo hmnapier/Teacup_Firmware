@@ -190,7 +190,7 @@
 #define	X_MIN_PIN							DIO7
 //#define	X_MAX_PIN					        DIO6
 //#define	X_ENABLE_PIN					xxxx
-//#define	X_INVERT_DIR
+#define	X_INVERT_DIR
 //#define	X_INVERT_MIN
 //#define	X_INVERT_MAX
 //#define	X_INVERT_ENABLE
@@ -210,7 +210,7 @@
 #define	Z_MIN_PIN							DIO1
 //#define	Z_MAX_PIN							DIO2
 //#define	Z_ENABLE_PIN					xxxx
-//#define	Z_INVERT_DIR
+#define	Z_INVERT_DIR
 //#define	Z_INVERT_MIN
 //#define	Z_INVERT_MAX
 //#define	Z_INVERT_ENABLE
