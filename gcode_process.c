@@ -608,6 +608,40 @@ void process_gcode_command() {
 				enqueue(NULL);
 				break;
 
+case 126:
+				//? --- M126: Open Valve ---
+				//?
+				//? Example: M126
+				//?
+				//? Open the relief valve.
+				//?
+
+				#ifdef ENFORCE_ORDER
+					// wait for all moves to complete
+					queue_wait();
+				#endif
+				#ifdef HEATER_VALVE
+					heater_set(HEATER_VALVE, 255);
+				#endif
+				break;
+
+			case 127:
+				//? --- M127: Close Valve ---
+				//?
+				//? Example: M127
+				//?
+				//? Close the relief valve.
+				//?
+
+				#ifdef ENFORCE_ORDER
+					// wait for all moves to complete
+					queue_wait();
+				#endif
+				#ifdef HEATER_VALVE
+					heater_set(HEATER_VALVE, 0);
+				#endif
+				break;
+
 			case 130:
 				//? --- M130: heater P factor ---
 				//? Undocumented.
