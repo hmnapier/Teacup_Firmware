@@ -287,7 +287,7 @@
 // to get both thermistors working make sure to use an appropriate 'ThermistorTable.h' file! 
 // See 'ThermistorTable.gen7.h' for an example
 DEFINE_TEMP_SENSOR(extruder, TT_THERMISTOR, PINA1, THERMISTOR_EXTRUDER)
-//DEFINE_TEMP_SENSOR(bed, TT_THERMISTOR, PINA2, THERMISTOR_BED)
+DEFINE_TEMP_SENSOR(bed, TT_THERMISTOR, PINA2, THERMISTOR_BED)
 
 
 

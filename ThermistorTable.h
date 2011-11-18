@@ -4,7 +4,7 @@
 #define NUMTABLES 1
 
 #define THERMISTOR_EXTRUDER	0
-// #define THERMISTOR_BED		1
+ #define THERMISTOR_BED		0
 
 // Thermistor lookup table, generated with --num-temps=50 and trimmed in lower temperature ranges.
 // You may be able to improve the accuracy of this table in various ways.
