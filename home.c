@@ -36,7 +36,7 @@ void home_x_negative() {
 	#if defined X_MIN_PIN
 		TARGET t = startpoint;
 
-		t.X = -1000*STEPS_PER_MM_X;
+		t.X = -1000000;
 		#ifdef SLOW_HOMING
 			// hit home soft
 			t.F = SEARCH_FEEDRATE_X;
@@ -48,7 +48,7 @@ void home_x_negative() {
 
 		#ifndef SLOW_HOMING
 			// back off slowly
-			t.X = +1000*STEPS_PER_MM_X;
+			t.X = +1000000;
 			t.F = SEARCH_FEEDRATE_X;
 			enqueue_home(&t, 0x1, 0);
 		#endif
@@ -56,10 +56,11 @@ void home_x_negative() {
 		// set X home
 		queue_wait(); // we have to wait here, see G92
 		#ifdef X_MIN
-			startpoint.X = next_target.target.X = (int32_t)(X_MIN * STEPS_PER_MM_X);
+			startpoint.X = next_target.target.X = (int32_t)(X_MIN * 1000.0);
 		#else
 			startpoint.X = next_target.target.X = 0;
 		#endif
+		dda_new_startpoint();
 	#endif
 }
 
@@ -71,7 +72,7 @@ void home_x_positive() {
 	#if defined X_MAX_PIN && defined X_MAX
 		TARGET t = startpoint;
 
-		t.X = +1000*STEPS_PER_MM_X;
+		t.X = +1000000;
 		#ifdef SLOW_HOMING
 			// hit home soft
 			t.F = SEARCH_FEEDRATE_X;
@@ -83,7 +84,7 @@ void home_x_positive() {
 
 		#ifndef SLOW_HOMING
 			// back off slowly
-			t.X = -1000*STEPS_PER_MM_X;
+			t.X = -1000000;
 			t.F = SEARCH_FEEDRATE_X;
 			enqueue_home(&t, 0x1, 0);
 		#endif
@@ -91,7 +92,8 @@ void home_x_positive() {
 		// set X home
 		queue_wait();
 		// set position to MAX
-		startpoint.X = next_target.target.X = (int32_t)(X_MAX * STEPS_PER_MM_X);
+		startpoint.X = next_target.target.X = (int32_t)(X_MAX * 1000.);
+		dda_new_startpoint();
 		// go to zero
 		t.X = 0;
 		t.F = MAXIMUM_FEEDRATE_X;
@@ -104,7 +106,7 @@ void home_y_negative() {
 	#if defined Y_MIN_PIN
 		TARGET t = startpoint;
 
-		t.Y = -1000*STEPS_PER_MM_Y;
+		t.Y = -1000000;
 		#ifdef SLOW_HOMING
 			// hit home soft
 			t.F = SEARCH_FEEDRATE_Y;
@@ -116,7 +118,7 @@ void home_y_negative() {
 
 		#ifndef SLOW_HOMING
 			// back off slowly
-			t.Y = +1000*STEPS_PER_MM_Y;
+			t.Y = +1000000;
 			t.F = SEARCH_FEEDRATE_Y;
 			enqueue_home(&t, 0x2, 0);
 		#endif
@@ -124,10 +126,11 @@ void home_y_negative() {
 		// set Y home
 		queue_wait();
 		#ifdef	Y_MIN
-			startpoint.Y = next_target.target.Y = (int32_t)(Y_MIN * STEPS_PER_MM_Y);
+			startpoint.Y = next_target.target.Y = (int32_t)(Y_MIN * 1000.);
 		#else
 			startpoint.Y = next_target.target.Y = 0;
 		#endif
+		dda_new_startpoint();
 	#endif
 }
 
@@ -139,7 +142,7 @@ void home_y_positive() {
 	#if defined Y_MAX_PIN && defined Y_MAX
 		TARGET t = startpoint;
 
-		t.Y = +1000*STEPS_PER_MM_Y;
+		t.Y = +1000000;
 		#ifdef SLOW_HOMING
 			// hit home soft
 			t.F = SEARCH_FEEDRATE_Y;
@@ -151,7 +154,7 @@ void home_y_positive() {
 
 		#ifndef SLOW_HOMING
 			// back off slowly
-			t.X = -1000*STEPS_PER_MM_Y;
+			t.X = -1000000;
 			t.F = SEARCH_FEEDRATE_Y;
 			enqueue_home(&t, 0x2, 0);
 		#endif
@@ -159,7 +162,8 @@ void home_y_positive() {
 		// set Y home
 		queue_wait();
 		// set position to MAX
-		startpoint.Y = next_target.target.Y = (int32_t)(Y_MAX * STEPS_PER_MM_Y);
+		startpoint.Y = next_target.target.Y = (int32_t)(Y_MAX * 1000.);
+		new_startpoint();
 		// go to zero
 		t.Y = 0;
 		t.F = MAXIMUM_FEEDRATE_Y;
@@ -172,7 +176,7 @@ void home_z_negative() {
 	#if defined Z_MIN_PIN
 		TARGET t = startpoint;
 
-		t.Z = -1000*STEPS_PER_MM_Z;
+		t.Z = -1000000;
 		#ifdef SLOW_HOMING
 			// hit home soft
 			t.F = SEARCH_FEEDRATE_Z;
@@ -184,7 +188,7 @@ void home_z_negative() {
 
 		#ifndef SLOW_HOMING
 			// back off slowly
-			t.Z = +1000*STEPS_PER_MM_Z;
+			t.Z = +1000000;
 			t.F = SEARCH_FEEDRATE_Z;
 			enqueue_home(&t, 0x4, 0);
 		#endif
@@ -192,10 +196,11 @@ void home_z_negative() {
 		// set Z home
 		queue_wait();
 		#ifdef Z_MIN
-			startpoint.Z = next_target.target.Z = (int32_t)(Z_MIN * STEPS_PER_MM_Z);
+			startpoint.Z = next_target.target.Z = (int32_t)(Z_MIN * 1000.);
 		#else
 			startpoint.Z = next_target.target.Z = 0;
 		#endif
+		dda_new_startpoint();
 		z_disable();
 	#endif
 }
@@ -208,7 +213,7 @@ void home_z_positive() {
 	#if defined Z_MAX_PIN && defined Z_MAX
 		TARGET t = startpoint;
 
-		t.Z = +1000*STEPS_PER_MM_Z;
+		t.Z = +1000000;
 		#ifdef SLOW_HOMING
 			// hit home soft
 			t.F = SEARCH_FEEDRATE_Z;
@@ -220,7 +225,7 @@ void home_z_positive() {
 
 		#ifndef SLOW_HOMING
 			// back off slowly
-			t.Z = -1000*STEPS_PER_MM_Z;
+			t.Z = -1000000;
 			t.F = SEARCH_FEEDRATE_Z;
 			enqueue_home(&t, 0x4, 0);
 		#endif
@@ -228,7 +233,8 @@ void home_z_positive() {
 		// set Z home
 		queue_wait();
 		// set position to MAX
-		startpoint.Z = next_target.target.Z = (int32_t)(Z_MAX * STEPS_PER_MM_Z);
+		startpoint.Z = next_target.target.Z = (int32_t)(Z_MAX * 1000.);
+		dda_new_startpoint();
 		// go to zero
 		t.Z = 0;
 		t.F = MAXIMUM_FEEDRATE_Z;

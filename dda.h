@@ -5,15 +5,80 @@
 
 #include	"config.h"
 
-// Used in distance calculation during DDA setup
-/// micrometers per step X
-#define	UM_PER_STEP_X		1000L / ((uint32_t) STEPS_PER_MM_X)
-/// micrometers per step Y
-#define	UM_PER_STEP_Y		1000L / ((uint32_t) STEPS_PER_MM_Y)
-/// micrometers per step Z
-#define	UM_PER_STEP_Z		1000L / ((uint32_t) STEPS_PER_MM_Z)
-/// micrometers per step E
-#define	UM_PER_STEP_E		1000L / ((uint32_t) STEPS_PER_MM_E)
+/*
+	micrometer to steps conversion
+
+	handle a few cases to avoid overflow while keeping reasonable accuracy
+	input is up to 20 bits, so we can multiply by 4096 at most
+*/
+#if	STEPS_PER_M_X >= 4096000
+	#define	um_to_steps_x(dest, src) \
+		do { dest = (src * (STEPS_PER_M_X / 10000L) + 50L) / 100L; } while (0)
+#elif	STEPS_PER_M_X >= 409600
+	#define	um_to_steps_x(dest, src) \
+		do { dest = (src * (STEPS_PER_M_X / 1000L) + 500L) / 1000L; } while (0)
+#elif	STEPS_PER_M_X >= 40960
+	#define	um_to_steps_x(dest, src) \
+		do { dest = (src * (STEPS_PER_M_X / 100L) + 5000L) / 10000L; } while (0)
+#elif	STEPS_PER_M_X >= 4096
+	#define	um_to_steps_x(dest, src) \
+		do { dest = (src * (STEPS_PER_M_X / 10L) + 50000L) / 100000L; } while (0)
+#else
+	#define	um_to_steps_x(dest, src) \
+		do { dest = (src * (STEPS_PER_M_X / 1L) + 500000L) / 1000000L; } while (0)
+#endif
+
+#if	STEPS_PER_M_Y >= 4096000
+	#define	um_to_steps_y(dest, src) \
+		do { dest = (src * (STEPS_PER_M_Y / 10000L) + 50L) / 100L; } while (0)
+#elif	STEPS_PER_M_Y >= 409600
+	#define	um_to_steps_y(dest, src) \
+		do { dest = (src * (STEPS_PER_M_Y / 1000L) + 500L) / 1000L; } while (0)
+#elif	STEPS_PER_M_Y >= 40960
+	#define	um_to_steps_y(dest, src) \
+		do { dest = (src * (STEPS_PER_M_Y / 100L) + 5000L) / 10000L; } while (0)
+#elif	STEPS_PER_M_Y >= 4096
+	#define	um_to_steps_y(dest, src) \
+		do { dest = (src * (STEPS_PER_M_Y / 10L) + 50000L) / 100000L; } while (0)
+#else
+	#define	um_to_steps_y(dest, src) \
+		do { dest = (src * (STEPS_PER_M_Y / 1L) + 500000L) / 1000000L; } while (0)
+#endif
+
+#if	STEPS_PER_M_Z >= 4096000
+	#define	um_to_steps_z(dest, src) \
+		do { dest = (src * (STEPS_PER_M_Z / 10000L) + 50L) / 100L; } while (0)
+#elif	STEPS_PER_M_Z >= 409600
+	#define	um_to_steps_z(dest, src) \
+		do { dest = (src * (STEPS_PER_M_Z / 1000L) + 500L) / 1000L; } while (0)
+#elif	STEPS_PER_M_Z >= 40960
+	#define	um_to_steps_z(dest, src) \
+		do { dest = (src * (STEPS_PER_M_Z / 100L) + 5000L) / 10000L; } while (0)
+#elif	STEPS_PER_M_Z >= 4096
+	#define	um_to_steps_z(dest, src) \
+		do { dest = (src * (STEPS_PER_M_Z / 10L) + 50000L) / 100000L; } while (0)
+#else
+	#define	um_to_steps_z(dest, src) \
+		do { dest = (src * (STEPS_PER_M_Z / 1L) + 500000L) / 1000000L; } while (0)
+#endif
+
+#if	STEPS_PER_M_E >= 4096000
+	#define	um_to_steps_e(dest, src) \
+		do { dest = (src * (STEPS_PER_M_E / 10000L) + 50L) / 100L; } while (0)
+#elif	STEPS_PER_M_E >= 409600
+	#define	um_to_steps_e(dest, src) \
+		do { dest = (src * (STEPS_PER_M_E / 1000L) + 500L) / 1000L; } while (0)
+#elif	STEPS_PER_M_E >= 40960
+	#define	um_to_steps_e(dest, src) \
+		do { dest = (src * (STEPS_PER_M_E / 100L) + 5000L) / 10000L; } while (0)
+#elif	STEPS_PER_M_E >= 4096
+	#define	um_to_steps_e(dest, src) \
+		do { dest = (src * (STEPS_PER_M_E / 10L) + 50000L) / 100000L; } while (0)
+#else
+	#define	um_to_steps_e(dest, src) \
+		do { dest = (src * (STEPS_PER_M_E / 1L) + 500000L) / 1000000L; } while (0)
+#endif
+
 
 #ifdef ACCELERATION_REPRAP
 	#ifdef ACCELERATION_RAMPING
@@ -25,7 +90,12 @@
 	types
 */
 
-// target is simply a point in space/time
+/**
+	\struct TARGET
+	\brief target is simply a point in space/time
+
+	X, Y, Z and E are in micrometers unless explcitely stated. F is in mm/min.
+*/
 typedef struct {
 	int32_t						X;
 	int32_t						Y;
@@ -59,7 +129,7 @@ typedef struct {
 	/// time until next step
 	uint32_t					c;
 	/// tracking variable
-	int16_t						n;
+	int32_t						n;
 	#endif
 
 	/// Endstop debouncing
@@ -139,6 +209,9 @@ extern volatile uint8_t steptimeout;
 /// startpoint holds the endpoint of the most recently created DDA, so we know where the next one created starts. could also be called last_endpoint
 extern TARGET startpoint;
 
+/// the same as above, counted in motor steps
+extern TARGET startpoint_steps;
+
 /// current_position holds the machine's current position. this is only updated when we step, or when G92 (set home) is received.
 extern TARGET current_position;
 
@@ -154,6 +227,9 @@ const uint8_t	msbloc (uint32_t v)																		__attribute__ ((const));
 
 // initialize dda structures
 void dda_init(void);
+
+// distribute a new startpoint
+void dda_new_startpoint(void);
 
 // create a DDA
 void dda_create(DDA *dda, TARGET *target);
