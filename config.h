@@ -73,7 +73,7 @@
 #define	STEPS_PER_M_Z					1280000
 
 /// http://blog.arcol.hu/?p=157 may help with this one
-#define	STEPS_PER_M_E					53900
+#define	STEPS_PER_M_E					539000
 
 /*
 	Values depending on the capabilities of your stepper motors and other mechanics.
@@ -227,7 +227,7 @@
 #define	E_STEP_PIN						DIO28
 #define	E_DIR_PIN							DIO27
 //#define E_ENABLE_PIN
-//#define	E_INVERT_DIR
+#define	E_INVERT_DIR
 //#define	E_INVERT_ENABLE
 
 #define	PS_ON_PIN							DIO15
