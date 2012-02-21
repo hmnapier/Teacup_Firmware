@@ -286,7 +286,7 @@
 
 // to get both thermistors working make sure to use an appropriate 'ThermistorTable.h' file! 
 // See 'ThermistorTable.gen7.h' for an example
-DEFINE_TEMP_SENSOR(extruder, TT_THERMISTOR, PINA1, THERMISTOR_EXTRUDER)
+//DEFINE_TEMP_SENSOR(extruder, TT_THERMISTOR, PINA1, THERMISTOR_EXTRUDER)
 //DEFINE_TEMP_SENSOR(bed, TT_THERMISTOR, PINA2, THERMISTOR_BED)
 
 
@@ -333,8 +333,9 @@ DEFINE_TEMP_SENSOR(extruder, TT_THERMISTOR, PINA1, THERMISTOR_EXTRUDER)
 //               name      port   pin    pwm
 //DEFINE_HEATER(extruder,	PB4)
 //DEFINE_HEATER(bed, PB3)
-DEFINE_HEATER(valve, PB3)
-DEFINE_HEATER(fan,	PA0)
+//DEFINE_HEATER(fan,	PA0)
+DEFINE_HEATER(pressure, PA0)
+DEFINE_HEATER(relief, PB3) //PB4 for H1 channel, PB3 for H2 channel 
 
 /// and now because the c preprocessor isn't as smart as it could be,
 /// uncomment the ones you've listed above and comment the rest.
@@ -344,8 +345,9 @@ DEFINE_HEATER(fan,	PA0)
 
 //#define HEATER_EXTRUDER HEATER_extruder
 //#define HEATER_BED HEATER_bed
-#define HEATER_FAN HEATER_fan
-#define HEATER_VALVE HEATER_valve
+//#define HEATER_FAN HEATER_fan
+#define HEATER_PRESSURE HEATER_pressure
+#define HEATER_RELIEF HEATER_relief
 
 
 /***************************************************************************\
