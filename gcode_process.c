@@ -486,8 +486,8 @@ void process_gcode_command() {
 					// wait for all moves to complete
 					queue_wait();
 				#endif
-				#ifdef HEATER_FAN
-					heater_set(HEATER_FAN, 255);
+				#ifdef HEATER_PRESSURE
+					heater_set(HEATER_PRESSURE, 255);
 				#endif
 				break;
 
@@ -504,8 +504,8 @@ void process_gcode_command() {
 					// wait for all moves to complete
 					queue_wait();
 				#endif
-				#ifdef HEATER_FAN
-					heater_set(HEATER_FAN, 0);
+				#ifdef HEATER_PRESSURE
+                			heater_set(HEATER_PRESSURE, 0);
 				#endif
 				break;
 
@@ -608,7 +608,7 @@ void process_gcode_command() {
 				enqueue(NULL);
 				break;
 
-case 126:
+                        case 126:
 				//? --- M126: Open Valve ---
 				//?
 				//? Example: M126
