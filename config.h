@@ -331,7 +331,7 @@ DEFINE_TEMP_SENSOR(extruder, TT_THERMISTOR, PINA1, THERMISTOR_EXTRUDER)
 #endif
 
 //               name      port   pin    pwm
-DEFINE_HEATER(extruder,	PB4)
+//DEFINE_HEATER(extruder,	PB4)
 //DEFINE_HEATER(bed, PB3)
 DEFINE_HEATER(valve, PB3)
 DEFINE_HEATER(fan,	PA0)
@@ -342,7 +342,7 @@ DEFINE_HEATER(fan,	PA0)
 /// so if you list a bed above, uncomment HEATER_BED, but if you list a chamber you do NOT need to create HEATED_CHAMBER
 /// I have searched high and low for a way to make the preprocessor do this for us, but so far I have not found a way.
 
-#define	HEATER_EXTRUDER HEATER_extruder
+//#define HEATER_EXTRUDER HEATER_extruder
 //#define HEATER_BED HEATER_bed
 #define HEATER_FAN HEATER_fan
 #define HEATER_VALVE HEATER_valve
